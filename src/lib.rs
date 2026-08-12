@@ -1,7 +1,7 @@
 //! # AlgoX
 //!
 //! **AlgoX** is a high-performance, zero-overhead algorithmic foundation library written in pure Rust.
-//! It offers **24 algorithm families** with standardized traits and production-ready implementations:
+//! It offers **30 algorithm families** with standardized traits and production-ready implementations:
 //!
 //! - **Tree**: `SegmentTree`, `FenwickTree`, `AvlTree`, `RedBlackTree`, `BPlusTree`, `Trie`
 //! - **Graph**: `BFS`, `DFS`, `Dijkstra`, `BellmanFord`, `FloydWarshall`, `TarjanSCC`, `Kruskal`, `Prim`, `Bridge`, `ConnectedComponents`, `TopologicalSort`
@@ -20,6 +20,12 @@
 //! - **Search**: `BinarySearch`, `ExponentialSearch`, `KmpSearch`, `LinearSearch`
 //! - **Rate Limiting**: `TokenBucket`, `LeakyBucket`, `SlidingWindow`
 //! - **Load Balancing**: `RoundRobin`, `WeightedRoundRobin`, `LeastConnections`
+//! - **Backtracking**: `NQueens`, `SudokuSolver`, `Permutations`
+//! - **Greedy**: `FractionalKnapsack`, `HuffmanCoding`
+//! - **Spatial**: `KdTree`, `QuadTree`
+//! - **Matrix**: `Matrix`, `GaussianElimination`
+//! - **Clustering**: `KMeans`, `KNearestNeighbors`
+//! - **Sequence**: `NeedlemanWunsch`, `RunLengthEncoding`
 //!
 //! ## Safety
 //!
@@ -28,9 +34,11 @@
 #![deny(unsafe_code)]
 
 pub mod abstraction;
+pub mod backtracking;
 pub mod bit;
 pub mod buffer;
 pub mod caching;
+pub mod clustering;
 pub mod compression;
 pub mod crypto;
 pub mod disjoint_set;
@@ -39,25 +47,31 @@ pub mod encoding;
 pub mod filtering;
 pub mod geometry;
 pub mod graph;
+pub mod greedy;
 pub mod hashing;
 pub mod heap;
 pub mod indexing;
 pub mod load_balancing;
 pub mod math;
+pub mod matrix;
 pub mod network_flow;
 pub mod randomized;
 pub mod rate_limit;
 pub mod scheduling;
 pub mod search;
+pub mod sequence;
 pub mod sorting;
+pub mod spatial;
 pub mod string;
 pub mod tree;
 
 pub use abstraction::AlgorithmTrait;
+pub use backtracking::{BacktrackingAlgorithmTrait, NQueens, Permutations, SudokuSolver};
 pub use buffer::{BufferAlgorithmTrait, CircularBuffer, RingBuffer};
 pub use caching::{
     ArcCache, CacheAlgorithmTrait, FifoCache, LfuCache, LruCache, TtlCache, TwoQueueCache,
 };
+pub use clustering::{ClusteringAlgorithmTrait, KMeans, KNearestNeighbors};
 pub use compression::{Brotli, CompressionAlgorithmTrait, Deflate, Gzip, Lz4, Zstd};
 pub use crypto::{
     Aes128Cbc, Aes128Gcm, Aes256Cbc, Aes256Gcm, CbcAlgorithmTrait, CipherAlgorithmTrait,
@@ -71,10 +85,12 @@ pub use filtering::{
     BloomFilter, CountMinSketch, CuckooFilter, ExactFilter, FilterAlgorithmTrait, HyperLogLog,
     ProbabilisticFilterAlgorithmTrait, QuotientFilter,
 };
+pub use geometry::{ClosestPair, ConvexHull, GeometryAlgorithmTrait, LineGeometry, Point};
 pub use graph::{
     BellmanFord, BFS, Bridge, ConnectedComponents, DFS, Dijkstra, FloydWarshall, GraphAlgorithmTrait,
     GraphTraversalAlgorithmTrait, Kruskal, Prim, ShortestPathAlgorithmTrait, TarjanSCC, TopologicalSort,
 };
+pub use greedy::{FractionalKnapsack, GreedyAlgorithmTrait, HuffmanCoding, Item};
 pub use hashing::{
     blake2b, blake2s, blake3, crc32, fnv1a_32, fnv1a_64, md5, sha1, sha224, sha256, sha384,
     sha512, sha3_224, sha3_256, sha3_384, sha3_512, xxhash3, xxhash32, xxhash64, Argon2, Bcrypt,
@@ -87,23 +103,24 @@ pub use indexing::{BTreeIndex, HashIndex, IndexingAlgorithmTrait};
 pub use load_balancing::{
     LeastConnections, LoadBalancingAlgorithmTrait, RoundRobin, WeightedRoundRobin,
 };
+pub use math::{Gcd, MathAlgorithmTrait, ModArith, Sieve};
+pub use matrix::{GaussianElimination, Matrix, MatrixAlgorithmTrait};
+pub use network_flow::{BipartiteMatching, EdmondsKarp, NetworkFlowAlgorithmTrait};
+pub use randomized::{RandomizedAlgorithmTrait, ReservoirSampling, Shuffle};
 pub use rate_limit::{LeakyBucket, RateLimitAlgorithmTrait, SlidingWindow, TokenBucket};
+pub use scheduling::{ActivitySelection, Job, SchedulingAlgorithmTrait, WeightedJobScheduling};
 pub use search::{
     BinarySearch, ExponentialSearch, KmpSearch, LinearSearch, SearchAlgorithmTrait,
 };
+pub use sequence::{NeedlemanWunsch, RunLengthEncoding, SequenceAlgorithmTrait};
 pub use sorting::{
     BubbleSort, CountingSort, HeapSort, InsertionSort, MergeSort, QuickSort, RadixSort,
     SelectionSort, SortingAlgorithmTrait, TimSort,
 };
+pub use spatial::{BoundingBox, KdTree, Point2D, QuadTree, SpatialAlgorithmTrait};
 pub use string::{AhoCorasick, Levenshtein, RabinKarp, StringAlgorithmTrait, ZAlgorithm};
 pub use tree::{AvlTree, BPlusTree, FenwickTree, RedBlackTree, SegmentTree, TreeAlgorithmTrait, Trie};
-
 pub use bit::{BitAlgorithmTrait, BitOps};
 pub use dynamic_programming::{
     CoinChange, DynamicProgrammingTrait, EditDistance, Knapsack01, LCS, LIS, MatrixChain,
 };
-pub use geometry::{ClosestPair, ConvexHull, GeometryAlgorithmTrait, LineGeometry, Point};
-pub use math::{Gcd, MathAlgorithmTrait, ModArith, Sieve};
-pub use network_flow::{BipartiteMatching, EdmondsKarp, NetworkFlowAlgorithmTrait};
-pub use randomized::{RandomizedAlgorithmTrait, ReservoirSampling, Shuffle};
-pub use scheduling::{ActivitySelection, Job, SchedulingAlgorithmTrait, WeightedJobScheduling};

@@ -4,7 +4,7 @@
 [![Documentation](https://docs.rs/algox/badge.svg)](https://docs.rs/algox)
 [![License](https://img.shields.io/badge/license-MIT%2FApache--2.0-blue.svg)](LICENSE)
 
-**AlgoX** is a high-performance, zero-overhead algorithmic foundation library in pure Rust, offering **24 algorithm families** with standardized traits and pure-Rust implementations.
+**AlgoX** is a high-performance, zero-overhead algorithmic foundation library in pure Rust, offering **30 algorithm families** with standardized traits and pure-Rust implementations.
 
 ---
 
@@ -36,6 +36,12 @@
 | **Rate Limiting** | `TokenBucket`, `LeakyBucket`, `SlidingWindow` |
 | **Search** | `LinearSearch`, `BinarySearch`, `ExponentialSearch`, `KmpSearch` |
 | **Sorting** | `BubbleSort`, `InsertionSort`, `SelectionSort`, `MergeSort`, `QuickSort`, `HeapSort`, `RadixSort`, `CountingSort`, `TimSort` |
+| **Backtracking** | `NQueens`, `SudokuSolver`, `Permutations` |
+| **Greedy** | `FractionalKnapsack`, `HuffmanCoding` |
+| **Spatial** | `KdTree` (2D Nearest Neighbor), `QuadTree` (2D Range Querying) |
+| **Matrix** | `Matrix` (Multiplication & Transpose), `GaussianElimination` (Linear Systems) |
+| **Clustering & ML** | `KMeans` (Clustering), `KNearestNeighbors` (KNN Classification) |
+| **Sequence** | `NeedlemanWunsch` (Global Alignment), `RunLengthEncoding` (RLE Compression) |
 
 ---
 
