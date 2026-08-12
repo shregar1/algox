@@ -12,7 +12,7 @@
 
 | Family | Submodules & Algorithms |
 |--------|------------------------|
-| **Sharding & Partitioning** | `ConsistentHash` (Virtual Nodes), `RendezvousHash` (HRW), `RangeSharder`, `GeoSharder` (Location & Geohash routing) |
+| **Sharding & Partitioning** | `ConsistentSharding` (Virtual Nodes), `RendezvousSharding` (HRW), `JumpConsistentSharding` (Google $O(\ln N)$), `MaglevSharding` (Google $O(1)$ Table), `RangeSharding`, `GeoSharding` (Geohash routing), `ListSharding`, `CompositeSharding` (Co-locating data), `DirectorySharding` (Dynamic map lookup) |
 | **Hashing** | MD5, SHA-1, SHA-2, SHA-3, BLAKE2b/s, BLAKE3, CRC32, FNV-1a, xxHash, Argon2, bcrypt, scrypt, PBKDF2, `Geohash` (Spatial Hashing) |
 | **Trees** | `SegmentTree`, `FenwickTree` (BIT), `AvlTree`, `RedBlackTree`, `BPlusTree`, `Trie` |
 | **Graphs** | `BFS`, `DFS`, `Dijkstra`, `BellmanFord`, `FloydWarshall`, `TarjanSCC`, `Kruskal`, `Prim`, `Bridge`, `ConnectedComponents`, `TopologicalSort` |
@@ -58,10 +58,10 @@ algox = "0.1"
 ### Example: Geo-Sharding Datacenter Router
 
 ```rust
-use algox::{GeoSharder, Geohash};
+use algox::{GeoSharding, Geohash};
 
 fn main() {
-    let mut sharder = GeoSharder::new(5);
+    let mut sharder = GeoSharding::new(5);
     sharder.set_fallback("global-us-east-datacenter");
 
     // Register Europe prefix "ezs" to European shard cluster

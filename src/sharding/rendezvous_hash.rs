@@ -3,12 +3,11 @@ use super::abstraction::ShardingAlgorithmTrait;
 use crate::hashing::fnv1a_64;
 
 /// Rendezvous Hashing (Highest Random Weight / HRW) algorithm.
-/// Guarantees minimal key reshuffling when nodes are added or removed.
-pub struct RendezvousHash {
+pub struct RendezvousSharding {
     nodes: Vec<String>,
 }
 
-impl RendezvousHash {
+impl RendezvousSharding {
     pub fn new() -> Self {
         Self { nodes: Vec::new() }
     }
@@ -46,9 +45,9 @@ impl RendezvousHash {
     }
 }
 
-impl AlgorithmTrait for RendezvousHash {
+impl AlgorithmTrait for RendezvousSharding {
     fn name(&self) -> &'static str {
-        "rendezvous_hash"
+        "rendezvous_sharding"
     }
 
     fn len(&self) -> usize {
@@ -60,7 +59,7 @@ impl AlgorithmTrait for RendezvousHash {
     }
 }
 
-impl ShardingAlgorithmTrait for RendezvousHash {
+impl ShardingAlgorithmTrait for RendezvousSharding {
     fn get_shard(&self, key: &str) -> Option<String> {
         self.get_node(key)
     }
@@ -71,8 +70,8 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_rendezvous_hashing() {
-        let mut rh = RendezvousHash::new();
+    fn test_rendezvous_sharding() {
+        let mut rh = RendezvousSharding::new();
         rh.add_node("node-a");
         rh.add_node("node-b");
         rh.add_node("node-c");

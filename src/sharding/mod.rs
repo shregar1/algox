@@ -1,11 +1,21 @@
 pub mod abstraction;
+pub mod composite_sharding;
 pub mod consistent_hash;
+pub mod directory_partition;
 pub mod geo_sharding;
+pub mod jump_consistent_hash;
+pub mod list_partition;
+pub mod maglev;
 pub mod range_sharding;
 pub mod rendezvous_hash;
 
 pub use abstraction::ShardingAlgorithmTrait;
-pub use consistent_hash::ConsistentHash;
-pub use geo_sharding::GeoSharder;
-pub use range_sharding::RangeSharder;
-pub use rendezvous_hash::RendezvousHash;
+pub use composite_sharding::CompositeSharding;
+pub use consistent_hash::ConsistentSharding;
+pub use directory_partition::DirectorySharding;
+pub use geo_sharding::GeoSharding;
+pub use jump_consistent_hash::JumpConsistentSharding;
+pub use list_partition::ListSharding;
+pub use maglev::MaglevSharding;
+pub use range_sharding::RangeSharding;
+pub use rendezvous_hash::RendezvousSharding;

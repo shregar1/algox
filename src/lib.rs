@@ -20,7 +20,7 @@
 //! - **Search**: `BinarySearch`, `ExponentialSearch`, `KmpSearch`, `LinearSearch`
 //! - **Rate Limiting**: `TokenBucket`, `LeakyBucket`, `SlidingWindow`
 //! - **Load Balancing**: `RoundRobin`, `WeightedRoundRobin`, `LeastConnections`
-//! - **Sharding & Partitioning**: `ConsistentHash`, `RendezvousHash`, `RangeSharder`, `GeoSharder`
+//! - **Sharding & Partitioning**: `ConsistentSharding`, `RendezvousSharding`, `JumpConsistentSharding`, `MaglevSharding`, `RangeSharding`, `GeoSharding`, `ListSharding`, `CompositeSharding`, `DirectorySharding`
 //! - **Backtracking**: `NQueens`, `SudokuSolver`, `Permutations`
 //! - **Greedy**: `FractionalKnapsack`, `HuffmanCoding`
 //! - **Spatial**: `KdTree`, `QuadTree`
@@ -116,7 +116,8 @@ pub use search::{
 };
 pub use sequence::{NeedlemanWunsch, RunLengthEncoding, SequenceAlgorithmTrait};
 pub use sharding::{
-    ConsistentHash, GeoSharder, RangeSharder, RendezvousHash, ShardingAlgorithmTrait,
+    CompositeSharding, ConsistentSharding, DirectorySharding, GeoSharding, JumpConsistentSharding,
+    ListSharding, MaglevSharding, RangeSharding, RendezvousSharding, ShardingAlgorithmTrait,
 };
 pub use sorting::{
     BubbleSort, CountingSort, HeapSort, InsertionSort, MergeSort, QuickSort, RadixSort,

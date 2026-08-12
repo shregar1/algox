@@ -4,13 +4,13 @@ use crate::hashing::fnv1a_64;
 use std::collections::BTreeMap;
 
 /// Consistent Hashing implementation with virtual nodes (vnodes) for uniform load distribution.
-pub struct ConsistentHash {
+pub struct ConsistentSharding {
     vnodes_per_node: usize,
     ring: BTreeMap<u64, String>,
     nodes: Vec<String>,
 }
 
-impl ConsistentHash {
+impl ConsistentSharding {
     pub fn new(vnodes_per_node: usize) -> Self {
         Self {
             vnodes_per_node: vnodes_per_node.max(1),
@@ -50,7 +50,6 @@ impl ConsistentHash {
             return None;
         }
         let hash = fnv1a_64(key.as_bytes());
-        // Find first entry in ring >= hash, or wrap around to first entry
         if let Some((_, node)) = self.ring.range(hash..).next() {
             Some(node.clone())
         } else {
@@ -59,9 +58,9 @@ impl ConsistentHash {
     }
 }
 
-impl AlgorithmTrait for ConsistentHash {
+impl AlgorithmTrait for ConsistentSharding {
     fn name(&self) -> &'static str {
-        "consistent_hash"
+        "consistent_sharding"
     }
 
     fn len(&self) -> usize {
@@ -74,7 +73,7 @@ impl AlgorithmTrait for ConsistentHash {
     }
 }
 
-impl ShardingAlgorithmTrait for ConsistentHash {
+impl ShardingAlgorithmTrait for ConsistentSharding {
     fn get_shard(&self, key: &str) -> Option<String> {
         self.get_node(key)
     }
@@ -85,8 +84,8 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_consistent_hashing() {
-        let mut ch = ConsistentHash::new(10);
+    fn test_consistent_sharding() {
+        let mut ch = ConsistentSharding::new(10);
         ch.add_node("shard-1");
         ch.add_node("shard-2");
         ch.add_node("shard-3");
@@ -96,7 +95,6 @@ mod tests {
         assert!(["shard-1", "shard-2", "shard-3"].contains(&node1.as_str()));
         assert!(["shard-1", "shard-2", "shard-3"].contains(&node2.as_str()));
 
-        // Removing a node redistributes keys
         ch.remove_node("shard-2");
         let new_node = ch.get_node("user_1001").unwrap();
         assert_ne!(new_node, "shard-2");
