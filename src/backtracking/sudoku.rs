@@ -66,6 +66,11 @@ mod tests {
 
     #[test]
     fn test_sudoku_solver() {
+        let mut ss = SudokuSolver;
+        assert_eq!(ss.name(), "sudoku_solver");
+        assert_eq!(ss.len(), 81);
+        ss.clear();
+
         let mut grid: [[u8; 9]; 9] = [
             [5, 3, 0, 0, 7, 0, 0, 0, 0],
             [6, 0, 0, 1, 9, 5, 0, 0, 0],
@@ -80,5 +85,22 @@ mod tests {
 
         assert!(SudokuSolver::solve(&mut grid));
         assert_eq!(grid[0][2], 4);
+    }
+
+    #[test]
+    fn test_sudoku_unsolvable() {
+        // Grid with conflicting numbers in same row and empty cell that cannot be filled
+        let mut invalid_grid: [[u8; 9]; 9] = [
+            [1, 2, 3, 4, 5, 6, 7, 8, 0], // missing 9
+            [0, 0, 0, 0, 0, 0, 0, 0, 9], // 9 in last column conflicts with filling 9 in row 0
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ];
+        assert!(!SudokuSolver::solve(&mut invalid_grid));
     }
 }

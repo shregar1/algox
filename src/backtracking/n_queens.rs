@@ -75,6 +75,11 @@ mod tests {
 
     #[test]
     fn test_n_queens_4() {
+        let mut nq = NQueens;
+        assert_eq!(nq.name(), "n_queens");
+        assert_eq!(nq.len(), 0);
+        nq.clear();
+
         let solutions = NQueens::solve(4);
         assert_eq!(solutions.len(), 2);
     }
@@ -83,5 +88,13 @@ mod tests {
     fn test_n_queens_8() {
         let solutions = NQueens::solve(8);
         assert_eq!(solutions.len(), 92);
+    }
+
+    #[test]
+    fn test_n_queens_edge_cases() {
+        assert_eq!(NQueens::solve(0), Vec::<Vec<usize>>::new());
+        assert_eq!(NQueens::solve(1), vec![vec![0]]);
+        assert_eq!(NQueens::solve(2), Vec::<Vec<usize>>::new());
+        assert_eq!(NQueens::solve(3), Vec::<Vec<usize>>::new());
     }
 }

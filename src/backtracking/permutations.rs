@@ -57,7 +57,14 @@ mod tests {
 
     #[test]
     fn test_permutations() {
+        let mut p = Permutations;
+        assert_eq!(p.name(), "permutations");
+        assert_eq!(p.len(), 0);
+        p.clear();
+
         let perms = Permutations::generate(&[1, 2, 3]);
         assert_eq!(perms.len(), 6);
+        assert_eq!(Permutations::generate::<i32>(&[]), vec![vec![]]);
+        assert_eq!(Permutations::generate(&[42]), vec![vec![42]]);
     }
 }
