@@ -57,12 +57,16 @@ impl KdTree {
         let left = Self::build_recursive(&mut points[..median], depth + 1);
         let right = Self::build_recursive(&mut points[median + 1..], depth + 1);
 
-        Some(Box::new(KdNode::Internal {
-            point,
-            axis,
-            left,
-            right,
-        }))
+        if left.is_none() && right.is_none() {
+            Some(Box::new(KdNode::Leaf { point }))
+        } else {
+            Some(Box::new(KdNode::Internal {
+                point,
+                axis,
+                left,
+                right,
+            }))
+        }
     }
 
     /// Finds the nearest neighbor to target point.
