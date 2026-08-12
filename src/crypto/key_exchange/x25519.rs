@@ -1,13 +1,13 @@
 use crate::abstraction::AlgorithmTrait;
 use super::abstraction::CryptoAlgorithmTrait;
 use x25519_dalek::{StaticSecret, PublicKey};
-use rand::thread_rng;
+use rand::rngs::OsRng;
 
 pub struct X25519;
 
 impl X25519 {
     pub fn generate_keypair() -> (StaticSecret, PublicKey) {
-        let secret = StaticSecret::random_from_rng(thread_rng());
+        let secret = StaticSecret::random_from_rng(OsRng);
         let public = PublicKey::from(&secret);
         (secret, public)
     }

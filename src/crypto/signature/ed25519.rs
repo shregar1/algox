@@ -1,13 +1,13 @@
 use crate::abstraction::AlgorithmTrait;
 use super::abstraction::CryptoAlgorithmTrait;
 use ed25519_dalek::{SigningKey, VerifyingKey, Signature, Signer, Verifier};
-use rand::thread_rng;
+use rand::rngs::OsRng;
 
 pub struct Ed25519;
 
 impl Ed25519 {
     pub fn generate_keypair() -> (SigningKey, VerifyingKey) {
-        let signing_key = SigningKey::generate(&mut thread_rng());
+        let signing_key = SigningKey::generate(&mut OsRng);
         let verifying_key = signing_key.verifying_key();
         (signing_key, verifying_key)
     }

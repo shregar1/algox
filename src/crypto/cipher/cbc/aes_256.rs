@@ -11,13 +11,20 @@ pub struct Aes256Cbc;
 
 impl Aes256Cbc {
     pub fn encrypt(key: &[u8; 32], iv: &[u8; 16], plaintext: &[u8]) -> Vec<u8> {
-        Aes256CbcEnc::new(key.into(), iv.into()).encrypt_padded_vec_mut::<Pkcs7>(plaintext)
+        let mut buf = vec![0u8; plaintext.len() + 16];
+        buf[..plaintext.len()].copy_from_slice(plaintext);
+        let ct = Aes256CbcEnc::new(key.into(), iv.into())
+            .encrypt_padded_mut::<Pkcs7>(&mut buf, plaintext.len())
+            .expect("padding error");
+        ct.to_vec()
     }
 
     pub fn decrypt(key: &[u8; 32], iv: &[u8; 16], ciphertext: &[u8]) -> Result<Vec<u8>, String> {
-        Aes256CbcDec::new(key.into(), iv.into())
-            .decrypt_padded_vec_mut::<Pkcs7>(ciphertext)
-            .map_err(|e| e.to_string())
+        let mut buf = ciphertext.to_vec();
+        let pt = Aes256CbcDec::new(key.into(), iv.into())
+            .decrypt_padded_mut::<Pkcs7>(&mut buf)
+            .map_err(|e| e.to_string())?;
+        Ok(pt.to_vec())
     }
 }
 
