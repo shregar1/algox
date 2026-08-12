@@ -1,25 +1,23 @@
 use crate::abstraction::AlgorithmTrait;
 use super::abstraction::RandomizedAlgorithmTrait;
+use rand::seq::SliceRandom;
+use rand::SeedableRng;
+use rand::rngs::StdRng;
 
 /// Fisher-Yates shuffle — uniform random permutation in O(n).
 pub struct Shuffle;
 
 impl Shuffle {
-    /// Shuffles `slice` in-place using a simple LCG for determinism in tests.
-    /// For production use, replace `lcg_next` with a cryptographic or OS RNG.
-    pub fn shuffle_with_seed<T>(slice: &mut [T], seed: u64) {
-        let n = slice.len();
-        if n <= 1 { return; }
-        let mut rng = seed;
-        for i in (1..n).rev() {
-            rng = Self::lcg_next(rng);
-            let j = (rng as usize) % (i + 1);
-            slice.swap(i, j);
-        }
+    /// Shuffles `slice` in-place using system entropy (`rand::thread_rng()`).
+    pub fn shuffle<T>(slice: &mut [T]) {
+        let mut rng = rand::thread_rng();
+        slice.shuffle(&mut rng);
     }
 
-    fn lcg_next(state: u64) -> u64 {
-        state.wrapping_mul(6364136223846793005).wrapping_add(1442695040888963407)
+    /// Shuffles `slice` in-place using a deterministic 64-bit seed (ideal for reproducible tests or simulations).
+    pub fn shuffle_with_seed<T>(slice: &mut [T], seed: u64) {
+        let mut rng = StdRng::seed_from_u64(seed);
+        slice.shuffle(&mut rng);
     }
 }
 
@@ -52,11 +50,20 @@ mod tests {
     }
 
     #[test]
+    fn test_shuffle_system_rng() {
+        let mut arr: Vec<i32> = (0..10).collect();
+        let original = arr.clone();
+        Shuffle::shuffle(&mut arr);
+        let mut sorted = arr.clone();
+        sorted.sort_unstable();
+        assert_eq!(sorted, original);
+    }
+
+    #[test]
     fn test_shuffle_changes_order() {
         let mut arr: Vec<i32> = (0..20).collect();
         let original = arr.clone();
         Shuffle::shuffle_with_seed(&mut arr, 12345);
-        // Very unlikely to be identical after shuffling 20 elements
         assert_ne!(arr, original);
     }
 }

@@ -1,3 +1,32 @@
+//! # AlgoX
+//!
+//! **AlgoX** is a high-performance, zero-overhead algorithmic foundation library written in pure Rust.
+//! It offers **24 algorithm families** with standardized traits and production-ready implementations:
+//!
+//! - **Tree**: `SegmentTree`, `FenwickTree`, `AvlTree`, `RedBlackTree`, `BPlusTree`, `Trie`
+//! - **Graph**: `BFS`, `DFS`, `Dijkstra`, `BellmanFord`, `FloydWarshall`, `TarjanSCC`, `Kruskal`, `Prim`, `Bridge`, `ConnectedComponents`, `TopologicalSort`
+//! - **Dynamic Programming**: `Knapsack01`, `LCS`, `LIS`, `CoinChange`, `EditDistance`, `MatrixChain`
+//! - **Network Flow**: `EdmondsKarp`, `BipartiteMatching`
+//! - **Geometry**: `ConvexHull`, `ClosestPair`, `LineGeometry`, `Point`
+//! - **String**: `ZAlgorithm`, `AhoCorasick`, `RabinKarp`, `Levenshtein`
+//! - **Randomized**: `Shuffle`, `ReservoirSampling`
+//! - **Math**: `Gcd`, `Sieve`, `ModArith`
+//! - **Filtering**: `BloomFilter`, `CuckooFilter`, `HyperLogLog`, `CountMinSketch`, `QuotientFilter`, `ExactFilter`
+//! - **Caching**: `LruCache`, `LfuCache`, `ArcCache`, `FifoCache`, `TtlCache`, `TwoQueueCache`
+//! - **Compression**: `Gzip`, `Deflate`, `Brotli`, `Lz4`, `Zstd`
+//! - **Cryptography**: AES (CBC/GCM), ChaCha20Poly1305, Fernet, RSA, ECDSA, Ed25519, X25519
+//! - **Hashing**: MD5, SHA-1, SHA-2, SHA-3, BLAKE2, BLAKE3, CRC32, FNV-1a, xxHash, Argon2, bcrypt, scrypt, PBKDF2
+//! - **Sorting**: `QuickSort`, `MergeSort`, `TimSort`, `HeapSort`, `RadixSort`, `CountingSort`, `InsertionSort`, `SelectionSort`, `BubbleSort`
+//! - **Search**: `BinarySearch`, `ExponentialSearch`, `KmpSearch`, `LinearSearch`
+//! - **Rate Limiting**: `TokenBucket`, `LeakyBucket`, `SlidingWindow`
+//! - **Load Balancing**: `RoundRobin`, `WeightedRoundRobin`, `LeastConnections`
+//!
+//! ## Safety
+//!
+//! AlgoX forbids unsafe code and operates with zero memory overhead.
+
+#![deny(unsafe_code)]
+
 pub mod abstraction;
 pub mod bit;
 pub mod buffer;
