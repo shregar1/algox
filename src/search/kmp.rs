@@ -75,9 +75,18 @@ mod tests {
 
     #[test]
     fn test_kmp_search() {
+        let mut kmp = KmpSearch;
+        assert_eq!(kmp.name(), "kmp_search");
+        assert_eq!(kmp.len(), 0);
+        kmp.clear();
+
         let text = b"ababcabcabababd";
         let pattern = b"ababd";
         assert_eq!(KmpSearch::search(text, pattern), Some(10));
         assert_eq!(KmpSearch::search(text, b"xyz"), None);
+
+        // Edge cases
+        assert_eq!(KmpSearch::search(text, b""), Some(0));
+        assert_eq!(KmpSearch::search(b"hi", b"hello world"), None);
     }
 }

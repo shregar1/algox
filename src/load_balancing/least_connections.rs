@@ -71,13 +71,26 @@ mod tests {
 
     #[test]
     fn test_least_connections() {
-        let mut lc = LeastConnections::new();
+        let mut lc = LeastConnections::default();
+        assert_eq!(lc.name(), "least_connections");
+
+        let empty: Vec<&str> = vec![];
+        assert_eq!(lc.select(&empty), None);
+
         let targets = vec!["node1", "node2", "node3"];
 
         lc.increment_conn(0);
         lc.increment_conn(0);
         lc.increment_conn(1);
+        assert_eq!(lc.len(), 2);
 
         assert_eq!(lc.select(&targets), Some(&"node3"));
+
+        lc.decrement_conn(0);
+        lc.decrement_conn(0);
+        lc.decrement_conn(99); // Decrementing non-existent target
+
+        lc.clear();
+        assert_eq!(lc.len(), 0);
     }
 }

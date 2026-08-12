@@ -50,11 +50,20 @@ mod tests {
 
     #[test]
     fn test_round_robin() {
-        let mut rr = RoundRobin::new();
+        let mut rr = RoundRobin::default();
+        assert_eq!(rr.name(), "round_robin");
+        assert_eq!(rr.len(), 0);
+
+        let empty: Vec<&str> = vec![];
+        assert_eq!(rr.select(&empty), None);
+
         let targets = vec!["server1", "server2", "server3"];
         assert_eq!(rr.select(&targets), Some(&"server1"));
         assert_eq!(rr.select(&targets), Some(&"server2"));
         assert_eq!(rr.select(&targets), Some(&"server3"));
+        assert_eq!(rr.select(&targets), Some(&"server1"));
+
+        rr.clear();
         assert_eq!(rr.select(&targets), Some(&"server1"));
     }
 }

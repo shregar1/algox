@@ -74,8 +74,19 @@ mod tests {
     #[test]
     fn test_token_bucket() {
         let mut tb = TokenBucket::new(10.0, 1.0);
+        assert_eq!(tb.name(), "token_bucket");
+        assert_eq!(tb.len(), 0);
+
         assert!(tb.check_and_consume("user1", 5));
+        assert_eq!(tb.len(), 1);
         assert!(tb.check_and_consume("user1", 5));
         assert!(!tb.check_and_consume("user1", 1));
+
+        tb.reset_key("user1");
+        assert_eq!(tb.len(), 0);
+        assert!(tb.check_and_consume("user1", 5));
+
+        tb.clear();
+        assert_eq!(tb.len(), 0);
     }
 }

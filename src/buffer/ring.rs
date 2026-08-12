@@ -276,6 +276,16 @@ mod tests {
     }
 
     #[test]
+    fn test_with_default_and_push_front_full() {
+        let mut rb: RingBuffer<i32> = RingBuffer::with_default(2);
+        assert_eq!(rb.capacity(), 2);
+        rb.push_back(1).unwrap();
+        rb.push_back(2).unwrap();
+        assert_eq!(rb.push_front(3), Err(3));
+        assert_eq!(rb.name(), "ring_buffer");
+    }
+
+    #[test]
     fn test_iter() {
         let mut rb = RingBuffer::new(4);
         rb.push_back(1).unwrap();

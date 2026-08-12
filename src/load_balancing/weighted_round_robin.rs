@@ -76,7 +76,20 @@ mod tests {
     #[test]
     fn test_weighted_round_robin() {
         let mut wrr = WeightedRoundRobin::new(vec![5, 1, 1]);
+        assert_eq!(wrr.name(), "weighted_round_robin");
+        assert_eq!(wrr.len(), 3);
+
         let targets = vec!["serverA", "serverB", "serverC"];
         assert!(wrr.select(&targets).is_some());
+
+        wrr.set_weights(vec![1, 1]);
+        assert_eq!(wrr.len(), 2);
+
+        let empty_targets: Vec<&str> = vec![];
+        assert_eq!(wrr.select(&empty_targets), None);
+
+        wrr.clear();
+        assert_eq!(wrr.len(), 0);
+        assert_eq!(wrr.select(&targets), None);
     }
 }

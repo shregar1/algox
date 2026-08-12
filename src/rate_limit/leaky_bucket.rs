@@ -72,8 +72,19 @@ mod tests {
     #[test]
     fn test_leaky_bucket() {
         let mut lb = LeakyBucket::new(10.0, 1.0);
+        assert_eq!(lb.name(), "leaky_bucket");
+        assert_eq!(lb.len(), 0);
+
         assert!(lb.check_and_consume("user1", 5));
+        assert_eq!(lb.len(), 1);
         assert!(lb.check_and_consume("user1", 5));
         assert!(!lb.check_and_consume("user1", 1));
+
+        lb.reset_key("user1");
+        assert_eq!(lb.len(), 0);
+        assert!(lb.check_and_consume("user1", 5));
+
+        lb.clear();
+        assert_eq!(lb.len(), 0);
     }
 }

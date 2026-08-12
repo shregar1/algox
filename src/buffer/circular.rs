@@ -136,11 +136,37 @@ mod tests {
     #[test]
     fn test_circular_buffer_overwrite() {
         let mut cb = CircularBuffer::new(2);
+        assert_eq!(cb.name(), "circular_buffer");
+        assert_eq!(cb.capacity(), 2);
+        assert!(cb.is_empty());
+        assert!(!cb.is_full());
+
         assert_eq!(cb.push(1), None);
         assert_eq!(cb.push(2), None);
+        assert!(cb.is_full());
+        assert_eq!(cb.front(), Some(&1));
+        assert_eq!(cb.back(), Some(&2));
+
         assert_eq!(cb.push(3), Some(1)); // Overwrites 1
-        assert_eq!(cb.pop(), Some(2));
+        assert_eq!(cb.front(), Some(&2));
+        assert_eq!(cb.back(), Some(&3));
+
+        assert_eq!(cb.pop_front(), Some(2));
         assert_eq!(cb.pop(), Some(3));
         assert_eq!(cb.pop(), None);
+        assert!(cb.is_empty());
+    }
+
+    #[test]
+    fn test_circular_buffer_traits_and_clear() {
+        let mut cb = CircularBuffer::new(3);
+        let _ = cb.push_back(10);
+        let _ = cb.push_back(20);
+        assert_eq!(cb.len(), 2);
+        cb.clear();
+        assert_eq!(cb.len(), 0);
+        assert!(cb.is_empty());
+        assert_eq!(cb.front(), None);
+        assert_eq!(cb.back(), None);
     }
 }

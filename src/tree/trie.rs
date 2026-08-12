@@ -105,12 +105,26 @@ mod tests {
 
     #[test]
     fn test_trie() {
-        let mut trie = Trie::new();
-        trie.insert("route/user", 100);
-        trie.insert("route/auth", 200);
+        let mut trie = Trie::default();
+        assert_eq!(trie.name(), "trie");
+        assert!(trie.is_empty());
 
-        assert_eq!(trie.get("route/user"), Some(&100));
+        assert_eq!(trie.insert("route/user", 100), None);
+        assert_eq!(trie.insert("route/user", 150), Some(100)); // Overwrite
+        assert_eq!(trie.insert("route/auth", 200), None);
+        assert_eq!(trie.len(), 2);
+
+        assert_eq!(trie.get("route/user"), Some(&150));
         assert_eq!(trie.get("route/auth"), Some(&200));
         assert_eq!(trie.get("route/unknown"), None);
+
+        // Test TreeAlgorithmTrait
+        let trait_ref: &mut dyn TreeAlgorithmTrait<String, i32> = &mut trie;
+        trait_ref.insert("trait/key".to_string(), 300);
+        assert_eq!(trait_ref.get(&"trait/key".to_string()), Some(&300));
+
+        trie.clear();
+        assert!(trie.is_empty());
+        assert_eq!(trie.get("route/user"), None);
     }
 }

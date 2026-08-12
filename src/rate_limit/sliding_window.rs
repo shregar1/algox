@@ -70,8 +70,19 @@ mod tests {
     #[test]
     fn test_sliding_window() {
         let mut sw = SlidingWindow::new(5, Duration::from_secs(60));
+        assert_eq!(sw.name(), "sliding_window");
+        assert_eq!(sw.len(), 0);
+
         assert!(sw.check_and_consume("user1", 3));
+        assert_eq!(sw.len(), 1);
         assert!(sw.check_and_consume("user1", 2));
         assert!(!sw.check_and_consume("user1", 1));
+
+        sw.reset_key("user1");
+        assert_eq!(sw.len(), 0);
+        assert!(sw.check_and_consume("user1", 3));
+
+        sw.clear();
+        assert_eq!(sw.len(), 0);
     }
 }
