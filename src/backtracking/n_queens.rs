@@ -37,7 +37,6 @@ impl NQueens {
 
         for col in 0..n {
             let d1 = row + col;
-            let d2 = row + n - col - 1 + n; // offset
             let d2_idx = if row >= col { row - col } else { n + col - row };
 
             if !cols[col] && !diag1[d1] && !diag2[d2_idx] {

@@ -1,7 +1,7 @@
 //! # AlgoX
 //!
 //! **AlgoX** is a high-performance, zero-overhead algorithmic foundation library written in pure Rust.
-//! It offers **30 algorithm families** with standardized traits and production-ready implementations:
+//! It offers **31 algorithm families** with standardized traits and production-ready implementations:
 //!
 //! - **Tree**: `SegmentTree`, `FenwickTree`, `AvlTree`, `RedBlackTree`, `BPlusTree`, `Trie`
 //! - **Graph**: `BFS`, `DFS`, `Dijkstra`, `BellmanFord`, `FloydWarshall`, `TarjanSCC`, `Kruskal`, `Prim`, `Bridge`, `ConnectedComponents`, `TopologicalSort`
@@ -15,11 +15,12 @@
 //! - **Caching**: `LruCache`, `LfuCache`, `ArcCache`, `FifoCache`, `TtlCache`, `TwoQueueCache`
 //! - **Compression**: `Gzip`, `Deflate`, `Brotli`, `Lz4`, `Zstd`
 //! - **Cryptography**: AES (CBC/GCM), ChaCha20Poly1305, Fernet, RSA, ECDSA, Ed25519, X25519
-//! - **Hashing**: MD5, SHA-1, SHA-2, SHA-3, BLAKE2, BLAKE3, CRC32, FNV-1a, xxHash, Argon2, bcrypt, scrypt, PBKDF2
+//! - **Hashing**: MD5, SHA-1, SHA-2, SHA-3, BLAKE2, BLAKE3, CRC32, FNV-1a, xxHash, Argon2, bcrypt, scrypt, PBKDF2, `Geohash`
 //! - **Sorting**: `QuickSort`, `MergeSort`, `TimSort`, `HeapSort`, `RadixSort`, `CountingSort`, `InsertionSort`, `SelectionSort`, `BubbleSort`
 //! - **Search**: `BinarySearch`, `ExponentialSearch`, `KmpSearch`, `LinearSearch`
 //! - **Rate Limiting**: `TokenBucket`, `LeakyBucket`, `SlidingWindow`
 //! - **Load Balancing**: `RoundRobin`, `WeightedRoundRobin`, `LeastConnections`
+//! - **Sharding & Partitioning**: `ConsistentHash`, `RendezvousHash`, `RangeSharder`, `GeoSharder`
 //! - **Backtracking**: `NQueens`, `SudokuSolver`, `Permutations`
 //! - **Greedy**: `FractionalKnapsack`, `HuffmanCoding`
 //! - **Spatial**: `KdTree`, `QuadTree`
@@ -60,6 +61,7 @@ pub mod rate_limit;
 pub mod scheduling;
 pub mod search;
 pub mod sequence;
+pub mod sharding;
 pub mod sorting;
 pub mod spatial;
 pub mod string;
@@ -94,7 +96,7 @@ pub use greedy::{FractionalKnapsack, GreedyAlgorithmTrait, HuffmanCoding, Item};
 pub use hashing::{
     blake2b, blake2s, blake3, crc32, fnv1a_32, fnv1a_64, md5, sha1, sha224, sha256, sha384,
     sha512, sha3_224, sha3_256, sha3_384, sha3_512, xxhash3, xxhash32, xxhash64, Argon2, Bcrypt,
-    Blake2b, Blake2s, Blake3, Crc32, Fnv1a32, Fnv1a64, HashingAlgorithmTrait, Md5, Pbkdf2, Scrypt,
+    Blake2b, Blake2s, Blake3, Crc32, Fnv1a32, Fnv1a64, Geohash, HashingAlgorithmTrait, Md5, Pbkdf2, Scrypt,
     Sha1, Sha224, Sha256, Sha384, Sha512, Sha3_224, Sha3_256, Sha3_384, Sha3_512, XxHash3, XxHash32,
     XxHash64,
 };
@@ -113,6 +115,9 @@ pub use search::{
     BinarySearch, ExponentialSearch, KmpSearch, LinearSearch, SearchAlgorithmTrait,
 };
 pub use sequence::{NeedlemanWunsch, RunLengthEncoding, SequenceAlgorithmTrait};
+pub use sharding::{
+    ConsistentHash, GeoSharder, RangeSharder, RendezvousHash, ShardingAlgorithmTrait,
+};
 pub use sorting::{
     BubbleSort, CountingSort, HeapSort, InsertionSort, MergeSort, QuickSort, RadixSort,
     SelectionSort, SortingAlgorithmTrait, TimSort,

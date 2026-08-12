@@ -4,7 +4,7 @@
 [![Documentation](https://docs.rs/algox/badge.svg)](https://docs.rs/algox)
 [![License](https://img.shields.io/badge/license-MIT%2FApache--2.0-blue.svg)](LICENSE)
 
-**AlgoX** is a high-performance, zero-overhead algorithmic foundation library in pure Rust, offering **30 algorithm families** with standardized traits and pure-Rust implementations.
+**AlgoX** is a high-performance, zero-overhead algorithmic foundation library in pure Rust, offering **31 algorithm families** with standardized traits and pure-Rust implementations.
 
 ---
 
@@ -12,6 +12,8 @@
 
 | Family | Submodules & Algorithms |
 |--------|------------------------|
+| **Sharding & Partitioning** | `ConsistentHash` (Virtual Nodes), `RendezvousHash` (HRW), `RangeSharder`, `GeoSharder` (Location & Geohash routing) |
+| **Hashing** | MD5, SHA-1, SHA-2, SHA-3, BLAKE2b/s, BLAKE3, CRC32, FNV-1a, xxHash, Argon2, bcrypt, scrypt, PBKDF2, `Geohash` (Spatial Hashing) |
 | **Trees** | `SegmentTree`, `FenwickTree` (BIT), `AvlTree`, `RedBlackTree`, `BPlusTree`, `Trie` |
 | **Graphs** | `BFS`, `DFS`, `Dijkstra`, `BellmanFord`, `FloydWarshall`, `TarjanSCC`, `Kruskal`, `Prim`, `Bridge`, `ConnectedComponents`, `TopologicalSort` |
 | **Dynamic Programming** | `Knapsack01`, `LCS`, `LIS`, `CoinChange`, `EditDistance`, `MatrixChain` |
@@ -29,7 +31,6 @@
 | **Compression** | `Gzip`, `Deflate`, `Brotli`, `Lz4`, `Zstd` |
 | **Cryptography** | AES (CBC/GCM), ChaCha20Poly1305, Fernet, RSA, ECDSA (P-256/P-384), Ed25519, X25519 |
 | **Encoding** | `Base64`, `Base64Url`, `Hex`, `UrlPercent` |
-| **Hashing** | MD5, SHA-1, SHA-2, SHA-3, BLAKE2b/s, BLAKE3, CRC32, FNV-1a, xxHash, Argon2, bcrypt, scrypt, PBKDF2 |
 | **Heap** | `BinaryMinHeap`, `BinaryMaxHeap` |
 | **Indexing** | `BTreeIndex`, `HashIndex` |
 | **Load Balancing** | `RoundRobin`, `WeightedRoundRobin`, `LeastConnections` |
@@ -54,21 +55,21 @@ Add `algox` to your `Cargo.toml`:
 algox = "0.1"
 ```
 
-### Example: Segment Tree Range Queries
+### Example: Geo-Sharding Datacenter Router
 
 ```rust
-use algox::SegmentTree;
+use algox::{GeoSharder, Geohash};
 
 fn main() {
-    let arr = [1, 3, 5, 7, 9, 11];
-    let mut st = SegmentTree::build(&arr);
+    let mut sharder = GeoSharder::new(5);
+    sharder.set_fallback("global-us-east-datacenter");
 
-    // Range sum query for [1, 3] -> 3 + 5 + 7 = 15
-    assert_eq!(st.query_range(1, 3), 15);
+    // Register Europe prefix "ezs" to European shard cluster
+    sharder.register_region("ezs", "shard-eu-west");
 
-    // Point update: set index 1 to 10
-    st.update(1, 10);
-    assert_eq!(st.query_range(1, 3), 22);
+    // Route coordinates (42.6, -5.6) -> geohash "ezs42" -> routes to "shard-eu-west"
+    let target_shard = sharder.route_coords(42.6, -5.6).unwrap();
+    assert_eq!(target_shard, "shard-eu-west");
 }
 ```
 
